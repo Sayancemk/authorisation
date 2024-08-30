@@ -1,7 +1,7 @@
 import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js";
 import {asyncHandler} from "../utils/asyncHandler.js";
-
+import {generateTokenAndSetCookie} from "../utils/generateTokenAndSetCookie.js";
 import bcrypt  from "bcryptjs";
 import {User} from "../model/user.model.js";
 
@@ -35,12 +35,30 @@ const signUp=asyncHandler(async(req,res)=>{
     }
 
     generateTokenAndSetCookie(res,user);
+    sendVerificationEmail(user.email,user.verficationToken);
     return res
     .status(201)
     .json(new ApiResponse(201,user,"User created successfully"));
     })
 
+const verifyEmail=asyncHandler(async(req,res)=>{
+    const {email,verficationToken}=req.body;
+    if(!email || !verficationToken){
+        throw new ApiError(400,"Email and verification token are required");
+    }
+    const user=await User.findOne({email,verficationToken,verficationTokenExpires:{$gt:Date.now()}});
+    if(!user){
+        throw new ApiError(400,"Invalid email or verification token");
+    }
+    user.isVerified=true;
+    user.verficationToken=undefined;
+    user.verficationTokenExpires=undefined;
+    await user.save();
+    return res
+    .status(200)
+    .json(new ApiResponse(200,user,"Email verified successfully"));
 
+})
 
 
 
