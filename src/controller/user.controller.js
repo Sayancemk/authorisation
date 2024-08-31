@@ -2,6 +2,7 @@ import {ApiError} from "../utils/ApiError.js"
 import {ApiResponse} from "../utils/ApiResponse.js";
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {generateTokenAndSetCookie} from "../utils/generateTokenAndSetCookie.js";
+import { sendVerificationEmail,sendWelcomeEmail } from "../mailtrap/email.js";
 import bcrypt  from "bcryptjs";
 import {User} from "../model/user.model.js";
 
@@ -42,18 +43,19 @@ const signUp=asyncHandler(async(req,res)=>{
     })
 
 const verifyEmail=asyncHandler(async(req,res)=>{
-    const {email,verficationToken}=req.body;
-    if(!email || !verficationToken){
+    const {verficationToken}=req.body;
+    if(!verficationToken){
         throw new ApiError(400,"Email and verification token are required");
     }
-    const user=await User.findOne({email,verficationToken,verficationTokenExpires:{$gt:Date.now()}});
+    const user=await User.findOne({verficationToken,verficationTokenExpires:{$gt:Date.now()}});
     if(!user){
-        throw new ApiError(400,"Invalid email or verification token");
+        throw new ApiError(400,"Invalid verification token");
     }
     user.isVerified=true;
     user.verficationToken=undefined;
     user.verficationTokenExpires=undefined;
     await user.save();
+    await sendWelcomeEmail(user.email,user.name);
     return res
     .status(200)
     .json(new ApiResponse(200,user,"Email verified successfully"));
@@ -64,4 +66,5 @@ const verifyEmail=asyncHandler(async(req,res)=>{
 
     export{
         signUp,
+        verifyEmail,
     }
