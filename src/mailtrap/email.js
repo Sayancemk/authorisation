@@ -47,12 +47,48 @@ const sendWElcomeEmail = (async (email, name) => {
         console.log(err);
         throw new ApiError(500,"Failed to send welcome email");
     }
-
-
-
 })
 
+const sendPasswordResetRequestEmail = (async (email, resetURL) => {
+    const recipient = [{
+        email,
+    }]
+    try {
+        const response = await mailTrapClient.send({
+            from: sender,
+            to: recipient,
+            subject: "Password Reset Request",
+            html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetURL),
+            category: "Password Reset Request",
+        });
+        console.log("Password reset request email sent successfully", response);
+    } catch (error) {
+        console.log(error);
+        throw new ApiError(500, "Failed to send password reset request email");
+    }
+})
 
+const sendResetPasswordSuccessEmail = (async (email) => {
+    const recipient = [{
+        email,
+    }]
+    try {
+        const response = await mailTrapClient.send({
+            from: sender,
+            to: recipient,
+            subject: "Password Reset Success",
+            html: PASSWORD_RESET_SUCCESS_TEMPLATE,
+            category: "Password Reset Success",
+        });
+        console.log("Password reset success email sent successfully", response);
+    } catch (error) {
+        console.log(error);
+        throw new ApiError(500, "Failed to send password reset success email");
+    }
+})
 export {
     sendVerificationEmail,
+    sendWElcomeEmail,
+    sendPasswordResetRequestEmail,
+    sendResetPasswordSuccessEmail,
 }

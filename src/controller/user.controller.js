@@ -2,8 +2,16 @@ import { ApiError } from "../utils/ApiError.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/email.js";
+import {
+    sendVerificationEmail, 
+    sendWelcomeEmail,
+    sendPasswordResetRequestEmail,
+    sendResetPasswordSuccessEmail,
+} from "../mailtrap/email.js";
+
 import bcrypt from "bcryptjs";
+import crypto from "cryptojs";
+
 import { User } from "../model/user.model.js";
 
 const signUp = asyncHandler(async (req, res) => {
@@ -91,11 +99,57 @@ const signOut = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, {}, "User signed out successfully"));
 })
 
+const forgotPassword = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+    if (!email) {
+        throw new ApiError(400, "email is required to sent the email")
+    }
+    const findUser = await User.findOne({ email })
+    if (!findUser) {
+        throw new ApiError(400, "User is not find")
+    }
+    const resetPasswordToken = crypto.randomBytes(20).toString("hex");
+    const resetPasswordExpires = Date.now() + 1 * 60 * 60 * 1000;// 1 Hour
+    findUser.resetPasswordToken = resetPasswordToken;
+    findUser.resetPasswordExpires = resetPasswordExpires;
+    await findUser.save();
+    // send email
+    await sendPasswordResetRequestEmail(findUser.email, `${process.env.CLIENT_URL}/reset-password/{resetPasswordToken}`);
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {}, "Email sent successfully"));
+})
 
+const resetPassword = asyncHandler(async (req, res) => {
+    const { resetPasswordToken } = req.params;
+    if(!resetPasswordToken){
+        throw new ApiError(400,"Reset password token is required");
+    }
+    const { password } = req.body;
+    if (!password) {
+        throw new ApiError(400, "Password is required");
+    }
+    const findUser =await User.findOne({resetPasswordToken,resetPasswordExpires:{$gt:Date.now()}});
+    if(!findUser){
+        throw new ApiError(400,"Invalid reset password token");
+    }
+    findUser.password=await bcrypt.hash(password,10);
+    findUser.resetPasswordToken=undefined;
+    findUser.resetPasswordExpires=undefined;
+    await findUser.save();
+    //sent email
+    await sendResetPasswordSuccessEmail(findUser.email);
+    return res
+        .status(200)
+        .json(new ApiResponse(200,{}, "Password reset successfully"));
+
+})
 
 export {
     signUp,
     verifyEmail,
     signIn,
     signOut,
+    forgotPassword,
+    resetPassword,
 }
