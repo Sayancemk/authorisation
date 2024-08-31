@@ -19,7 +19,7 @@ router.route('/verify-email').post(verifyEmail);
 
 router.route('/sign-in').post(signIn);
 
-router.route('/sign-out').get(verifyToken, signOut);
+router.route('/sign-out').get(signOut);
 
 router.route('/verify-email').post(verifyEmail);
 
