@@ -12,7 +12,7 @@ import {
 import bcrypt from "bcryptjs";
 import crypto from "cryptojs";
 
-import { User } from "../model/user.model.js";
+import  User  from "../model/user.model.js";
 
 const signUp = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
@@ -145,6 +145,56 @@ const resetPassword = asyncHandler(async (req, res) => {
 
 })
 
+const checkAuth=asyncHandler(async(req,res)=>{
+    const user=await User.findById(req.userId).select("-password");
+    if(!user){
+        throw new ApiError(400,"User not found");
+    }
+    return res
+        .status(200)
+        .json(new ApiResponse(200,user,"User found successfully"));
+})
+   
+const updatePassword=asyncHandler(async(req,res)=>{
+    const {oldPassword,newPassword}=req.body;
+    if(!oldPassword||!newPassword){
+        throw new ApiError(400,"Old password and new password are required");
+    }
+    if(oldPassword===newPassword){
+        throw new ApiError(400,"Old password and new password should not be same");
+    }
+    const user=await User.findById(req.userId);
+    if(!user){
+        throw new ApiError(400,"User not found");
+    }
+    const isMatch=await bcrypt.compare(oldPassword,user.password);
+    if(!isMatch){
+        throw new ApiError(400,"Invalid old password");
+    }
+
+    user.password=await bcrypt.hash(newPassword,10);
+    await user.save();
+    return res
+        .status(200)
+        .json(new ApiResponse(200,{}, "Password updated successfully"));
+})
+
+const updateEmail=asyncHandler(async(req,res)=>{
+    const {email}=req.body;
+    if(!email){
+        throw new ApiError(400,"Email is required");
+    }
+    const user=await User.findById(req.userId);
+    if(!user){
+        throw new ApiError(400,"User not found");
+    }
+    user.email=email;
+    await user.save();
+    return res
+        .status(200)
+        .json(new ApiResponse(200,{}, "Email updated successfully"));
+})
+
 export {
     signUp,
     verifyEmail,
@@ -152,4 +202,7 @@ export {
     signOut,
     forgotPassword,
     resetPassword,
+    updatePassword,
+    updateEmail,
+    checkAuth,
 }

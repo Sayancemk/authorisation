@@ -4,7 +4,7 @@ import {
     VERIFICATION_EMAIL_TEMPLATE,
     WELCOME_EMAIL_TEMPLATE,
 } from "./emailTemplates.js"
-import { mailTrapClient, sender } from "mailtrap";
+import { mailtrapClient, sender } from "./mailtrap.config.js";
 import { ApiError } from "../utils/ApiError.js"
 
 
@@ -13,7 +13,7 @@ const sendVerificationEmail = (async (email, verificationCode) => {
         email,
     }]
     try {
-        const response = await mailTrapClient.send({
+        const response = await mailtrapClient.send({
             from: sender,
             to: recipient,
             subject: "Verify Your Email",
@@ -35,7 +35,7 @@ const sendWElcomeEmail = (async (email, name) => {
     }]
 
     try{
-        const response=await mailTrapClient.send({
+        const response=await mailtrapClient.send({
             from:sender,
             to:recipient,
             subject:"Welcome to our platform",
@@ -54,7 +54,7 @@ const sendPasswordResetRequestEmail = (async (email, resetURL) => {
         email,
     }]
     try {
-        const response = await mailTrapClient.send({
+        const response = await mailtrapClient.send({
             from: sender,
             to: recipient,
             subject: "Password Reset Request",
@@ -73,7 +73,7 @@ const sendResetPasswordSuccessEmail = (async (email) => {
         email,
     }]
     try {
-        const response = await mailTrapClient.send({
+        const response = await mailtrapClient.send({
             from: sender,
             to: recipient,
             subject: "Password Reset Success",

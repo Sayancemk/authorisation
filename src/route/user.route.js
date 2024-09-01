@@ -6,10 +6,12 @@ import {
     signOut,
     forgotPassword,
     resetPassword,
+    updatePassword,
+    updateEmail,
     checkAuth
-} from '../controller/user.controller';
+} from '../controller/user.controller.js';
 
-import { verifyToken } from '../middleware/verifyToken.js';
+import { verifyToken } from '../middlewares/verifyToken.js';
 
 const router = express.Router();
 
@@ -26,6 +28,10 @@ router.route('/verify-email').post(verifyEmail);
 router.route('/forgot-password').post(forgotPassword);
 
 router.route('/reset-password/:token').post(resetPassword);
+
+router.route('/update-password').put(verifyToken, updatePassword);
+
+router.route('/update-email').put(verifyToken, updateEmail);
 
 router.route('/check-auth').get(verifyToken, checkAuth);
 
