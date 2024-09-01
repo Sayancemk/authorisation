@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import {
     sendVerificationEmail, 
-    sendWelcomeEmail,
+    sendWElcomeEmail,
     sendPasswordResetRequestEmail,
     sendResetPasswordSuccessEmail,
 } from "../mailtrap/email.js";
@@ -63,7 +63,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
     user.verficationToken = undefined;
     user.verficationTokenExpires = undefined;
     await user.save();
-    await sendWelcomeEmail(user.email, user.name);
+    await sendWElcomeEmail(user.email, user.name);
     return res
         .status(200)
         .json(new ApiResponse(200, user, "Email verified successfully"));
