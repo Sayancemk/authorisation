@@ -11,7 +11,7 @@ import {
 } from "../mailtrap/email.js";
 
 import bcrypt from "bcryptjs";
-import crypto from "cryptojs";
+import crypto from "crypto";
 
 import  User  from "../model/user.model.js";
 
@@ -122,6 +122,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
     findUser.resetPasswordToken = resetPasswordToken;
     findUser.resetPasswordExpires = resetPasswordExpires;
     await findUser.save();
+    console.log(findUser);
+    console.log(resetPasswordToken);
     // send email
     await sendPasswordResetRequestEmail(findUser.email, `${process.env.CLIENT_URL}/reset-password/{resetPasswordToken}`);
     return res
@@ -130,7 +132,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 })
 
 const resetPassword = asyncHandler(async (req, res) => {
-    const { resetPasswordToken } = req.params;
+    const { resetPasswordToken } = req.body;
     if(!resetPasswordToken){
         throw new ApiError(400,"Reset password token is required");
     }
