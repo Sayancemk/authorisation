@@ -52,7 +52,7 @@ const signUp = asyncHandler(async (req, res) => {
 })
 
 const verifyEmail = asyncHandler(async (req, res) => {
-    const { verficationToken } = req.body;
+    const {verficationToken } = req.body;
     if (! verficationToken) {
         console.log(verficationToken);
         throw new ApiError(400, " verification token are required");

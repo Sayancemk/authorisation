@@ -94,180 +94,178 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
 </html>
 `;
 
-export const WELCOME_EMAIL_TEMPLATE = `
+export const WELCOME_EMAIL_TEMPLATE = 
+`   <!-- Change values in the template and pass { {variables} } with API call -->
+<!-- Feel free to adjust it to your needs and delete all these comments-->
+<!-- Also adapt TXT version of this email -->
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-  <meta charset="UTF-8">
+  <title></title>
+  <!--[if !mso]><!-- -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--<![endif]-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome Email</title>
+  <style type="text/css">
+    #outlook a {
+      padding: 0;
+    }
+
+    .ReadMsgBody {
+      width: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+
+    .ExternalClass * {
+      line-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+  </style>
+  <!--[if !mso]><!-->
+  <style type="text/css">
+    @media only screen and (max-width:480px) {
+      @-ms-viewport {
+        width: 320px;
+      }
+      @viewport {
+        width: 320px;
+      }
+    }
+  </style>
+  <!--<![endif]-->
+  <!--[if mso]><xml>  <o:OfficeDocumentSettings>    <o:AllowPNG/>    <o:PixelsPerInch>96</o:PixelsPerInch>  </o:OfficeDocumentSettings></xml><![endif]-->
+  <!--[if lte mso 11]><style type="text/css">  .outlook-group-fix {    width:100% !important;  }</style><![endif]-->
+  <!--[if !mso]><!-->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" type="text/css">
+  <style type="text/css">
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+  </style>
+  <!--<![endif]-->
+  <style type="text/css">
+    @media only screen and (max-width:595px) {
+      .container {
+        width: 100% !important;
+      }
+      .button {
+        display: block !important;
+        width: auto !important;
+      }
+    }
+  </style>
 </head>
- 
-<body style="background-color:black">
-    <table align="center" border="0" cellpadding="0" cellspacing="0"
-           width="550" bgcolor="white" style="border:2px solid black">
-        <tbody background-color:black>
-            <tr>
-                <td align="center">
-                    <table align="center" border="0" cellpadding="0"
-                           cellspacing="0" class="col-550" width="550">
-                        <tbody>
-                            <tr>
-                                <td align="center" style="background-color: purple; font-size=45px
-                                           height: 50px;">
-                              <img 
-                               style= "height=100px;width:789px" src="https://img.freepik.com/free-vector/cyber-data-security-online-concept-illustration-internet-security-information-privacy-protection_1150-37328.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1724889600&semt=ais_hybrid">
- 
-                                    <a href="#" style="text-decoration: none;">
-                                        <p style="color:white;
-                                                  font-weight:bold; font-size=20px">
-                                        Authentication System
-                                        </p>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr style="height: 300px; background-color:orange">
-                <td align="center" style="border: none;
-                           border-bottom: 2px solid #4cb96b; 
-                           padding-right: 20px;padding-left:20px">
- 
-                    <p style="font-weight: bolder;font-size: 42px;
-                              letter-spacing: 0.025em;
-                              color:black;">
-                        Hello {name}!
-                        <br> Check out our latest Blogs
-                    </p>
-                </td>
-            </tr>
- 
-            <tr style="display: inline-block;">
-                <td style="height: 150px;
-                           padding: 20px;
-                           border: none; 
-                           border-bottom: 2px solid #361B0E;
-                           background-color: white;">
-                   
-                    <h2 style="text-align: left;
-                               align-items: center;">
-                      welcome to our authentication system
-                   </h2>
-                    <p class="data"
-                       style="text-align: justify-all;
-                              align-items: center; 
-                              font-size: 15px;
-                              padding-bottom: 12px;">
-                     Here we can sent the welcome email to You.You can use our latest features of our system
-                    <p>
-                        <a href=
-"https://www.geeksforgeeks.org/design-patterns-a-must-skill-to-have-for-software-developers-in-2019/"
-                           style="text-decoration: none; 
-                                  color:black; 
-                                  border: 2px solid #4cb96b; 
-                                  padding: 10px 30px;
-                                  font-weight: bold;"> 
-                           Read More 
-                      </a>
-                    </p>
-                </td>
-            </tr>
-            <tr style="border: none; 
-            background-color: #4cb96b; 
-            height: 40px; 
-            color:white; 
-            padding-bottom: 20px; 
-            text-align: center;">
-                
-<td height="40px" align="center">
-    <p style="color:white; 
-    line-height: 1.5em;">
-    Authentication System
-    </p>
-    <a href="#" 
-    style="border:none;
-           text-decoration: none; 
-           padding: 5px;"> 
+
+<body style="font-family: 'Inter', sans-serif; background: #E5E5E5;">
+  <table width="100%" cellspacing="0" cellpadding="0" border="0" align="center" bgcolor="#F6FAFB">
+    <tbody>
+      <tr>
+        <td valign="top" align="center">
+          <table class="container" width="600" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <img  style="width:556px"src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdUjC79ZJ7pvOjsy30HxJs_6UDhBO9HZaeSQ&s" >
            
-    <img height="30" 
-    src=
-"https://extraaedgeresources.blob.core.windows.net/demo/salesdemo/EmailAttachments/icon-twitter_20190610074030.png" 
-    width="30" /> 
-    </a> 
-    
-    <a href="#"
-    style="border:none;
-    text-decoration: none; 
-    padding: 5px;"> 
-    
-    <img height="30" 
-    src=
-"https://extraaedgeresources.blob.core.windows.net/demo/salesdemo/EmailAttachments/icon-linkedin_20190610074015.png" 
-width="30" /> 
-    </a>
-    
-    <a href="#" 
-    style="border:none;
-    text-decoration: none;
-    padding: 5px;"> 
-    
-    <img height="20"
-    src=
-"https://extraaedgeresources.blob.core.windows.net/demo/salesdemo/EmailAttachments/facebook-letter-logo_20190610100050.png" 
-        width="24" 
-        style="position: relative; 
-               padding-bottom: 5px;" />
-    </a>
-</td>
-</tr>
-<tr>
-<td style="font-family:'Open Sans', Arial, sans-serif;
-           font-size:11px; line-height:18px; 
-           color:#999999;" 
-    valign="top"
-    align="center">
-<a href="#"
-   target="_blank" 
-   style="color:#999999; 
-          text-decoration:underline;">PRIVACY STATEMENT</a> 
-          | <a href="#" target="_blank" 
-          style="color:#999999; text-decoration:underline;">TERMS OF SERVICE</a> 
-          | <a href="#"
-          target="_blank" 
-          style="color:#999999; text-decoration:underline;">RETURNS</a><br>
-                  © 2012 Auth Company. All Rights Reserved.<br>
-                  If you do not wish to receive any further 
-                  emails from us, please
+              </tr>
+              <tr>
+                <td class="main-content" style="padding: 48px 30px 40px; color: #000000;" bgcolor="#ffffff">
+                  <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td style="padding: 0 0 24px 0; font-size: 18px; line-height: 150%; font-weight: bold; color: #000000; letter-spacing: 0.01em; background-color=#FFA500">
+                          Welcome, {{name}}!
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 0 0 10px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                          Thanks for chooosing this authentication service! We are happy to see you on board.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+Here you completed all the verification process
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 0 0 24px 0;">
+                          <a   title="Reset Password" style="width: 100%; background: #4C83EE; text-decoration: none; display: inline-block; padding: 10px 0; color: #fff; font-size: 14px; line-height: 21px; text-align: center; font-weight: bold; border-radius: 7px;">WELCOME HERE</a>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 0 0 16px 0; font-size: 14px; line-height: 150%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                          If you need some help to get started check our website to get started mail in our support group .
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 0 0 8px;">
+             
+                    
+                          </a>
+                        </td>
+                      </tr>
+                      <tr>
+                     
+                      </tr>
+                      <tr>
+                      <tr>
+                        <td style="padding: 0 0 16px;">
+                          <span style="display: block; width: 117px; border-bottom: 1px solid #8B949F;"></span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-size: 14px; line-height: 170%; font-weight: 400; color: #000000; letter-spacing: 0.01em;">
+                          Best regards, <br><strong>Authentication App Production</strong>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 24px 0 48px; font-size: 0px; ">
+                  <!--[if mso | IE]>      <table role="presentation" border="0" cellpadding="0" cellspacing="0">        <tr>          <td style="vertical-align:top;width:300px;">      <![endif]-->
+                  <div class="outlook-group-fix" style="padding: 30px 0 20px 20px; vertical-align: top; display: inline-block; text-align: center; width:100%;">
+                    <span style="padding: 20px; font-size: 17px; line-height: 15px; font-weight: normal; color: red;">Authentication Provider Service<br/>
+                         <div class="outlook-group-fix" style="padding: 0 0 20px 0; vertical-align: top; display: inline-block; text-align: center; width:100%">
+                  <br/>
+                     © 2012 Auth Company. All Rights Reserved<br>
+                      If you do not wish to receive any further 
+                  emails from us, please ignore all of this
                   <a href="#"
                   target="_blank"
                   style="text-decoration:none; 
-                         color:#999999;">unsubscribe</a>
-            </td>
+                         color:blue;">unsubscribe</a></span>
+                  </div></span>
+                  </div>
+                  <!--[if mso | IE]>      </td></tr></table>      <![endif]-->
+                </td>
               </tr>
-            </tbody></table></td>
-        </tr>
-        <tr>
-          <td class="em_hide"
-          style="line-height:1px;
-                 min-width:700px;
-                 background-color:#ffffff;">
-              <img alt="" 
-              src="images/spacer.gif" 
-              style="max-height:1px; 
-              min-height:1px; 
-              display:block; 
-              width:700px; 
-              min-width:700px;" 
-              width="700"
-              border="0" 
-              height="1">
-              </td>
-        </tr>
-        </tbody>
-    </table>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </body>
+</html>
+    
 `;
 
 
