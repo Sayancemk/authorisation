@@ -3,6 +3,7 @@ import {
     PASSWORD_RESET_SUCCESS_TEMPLATE,
     VERIFICATION_EMAIL_TEMPLATE,
     WELCOME_EMAIL_TEMPLATE,
+    LOGIN_EMAIL_TEMPLATE,
 } from "./emailTemplates.js"
 import { mailtrapClient, sender } from "./mailtrap.config.js";
 import { ApiError } from "../utils/ApiError.js"
@@ -86,9 +87,31 @@ const sendResetPasswordSuccessEmail = (async (email) => {
         throw new ApiError(500, "Failed to send password reset success email");
     }
 })
+
+const loginSuccessEmail = (async (email,name) => {
+    const recipient = [{
+        email,
+    }]
+    try {
+        const response = await mailtrapClient.send({
+            from: sender,
+            to: recipient,
+            subject: "Login Success",
+            html: LOGIN_EMAIL_TEMPLATE.replace("{name}",name),
+            category: "Login Success",
+        });
+        console.log("Login success email sent successfully", response);
+    } catch (error) {
+        console.log(error);
+        throw new ApiError(500, "Failed to send login success email");
+    }
+})
+
+
 export {
     sendVerificationEmail,
     sendWElcomeEmail,
+    loginSuccessEmail,
     sendPasswordResetRequestEmail,
     sendResetPasswordSuccessEmail,
 }

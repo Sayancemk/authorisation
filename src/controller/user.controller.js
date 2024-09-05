@@ -5,6 +5,7 @@ import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js
 import {
     sendVerificationEmail, 
     sendWElcomeEmail,
+    loginSuccessEmail,
     sendPasswordResetRequestEmail,
     sendResetPasswordSuccessEmail,
 } from "../mailtrap/email.js";
@@ -52,8 +53,9 @@ const signUp = asyncHandler(async (req, res) => {
 
 const verifyEmail = asyncHandler(async (req, res) => {
     const { verficationToken } = req.body;
-    if (!verficationToken) {
-        throw new ApiError(400, "Email and verification token are required");
+    if (! verficationToken) {
+        console.log(verficationToken);
+        throw new ApiError(400, " verification token are required");
     }
     const user = await User.findOne({ verficationToken, verficationTokenExpires: { $gt: Date.now() } });
     if (!user) {
@@ -73,20 +75,27 @@ const verifyEmail = asyncHandler(async (req, res) => {
 const signIn = asyncHandler(async (req, res) => {
 
     const { email, password } = req.body;
+    console.log(password);
     if (!email || !password) {
         throw new ApiError(400, "Email and password are required");
     }
-    const findUser = await User.findOne({ email }).select("-password");
+    const findUser = await User.findOne({ email });
     if (!findUser) {
         throw new ApiError(400, "User not found");
     }
+    if (!findUser.isVerified) {
+        throw new ApiError(400, "Email is not verified  please verify your email");
+    }
+    console.log(findUser);
     const isMatch = await bcrypt.compare(password, findUser.password);
+    console.log(isMatch);
     if (!isMatch) {
         throw new ApiError(400, "Invalid password");
     }
     generateTokenAndSetCookie(res, findUser);
     findUser.lastLogin = Date.now();
     await findUser.save();
+    await loginSuccessEmail(findUser.email, findUser.name);
     return res
         .status(200)
         .json(new ApiResponse(200, findUser, "User signed in successfully"));
